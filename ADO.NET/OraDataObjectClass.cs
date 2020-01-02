@@ -3,7 +3,7 @@ using System.Data;
 using System.IO;
 using Oracle.ManagedDataAccess.Client;
 
-namespace TG_DB.Model
+namespace MyModel
 {
     class OraDataObjectClass
     {
