@@ -1,0 +1,83 @@
+using System;
+using System.Data;
+
+namespace MyModel
+{
+    class SQLModify
+    {
+        public static void Ins(string name, DataTable dt)
+        {
+            string sql;
+
+            if(dt.Rows.Count <= 1000)
+            {
+                sql = "Insert into " + name + " values ";
+
+                for(int i = 0; i < dt.Rows.Count; i++)
+                {
+                    sql += "(";
+                    for(int j=0;j< dt.Columns.Count; j++)
+                    {
+                        sql += "'" + dt.Rows[i][j].ToString().Trim() + "',";
+                    }
+                    sql += "),";
+                }
+
+                sql = sql.TrimEnd(',');
+                sql = sql.Replace("''", "null");
+                SqlDataObjectClass.ExecSQL(name, sql);
+            }
+            else //data rows > 1000
+            {
+                int RowCount;
+
+                if(Convert.ToDecimal(dt.Rows.Count) % 1000 == 0)
+                {
+                    RowCount = dt.Rows.Count / 1000 - 1;
+                }
+                else
+                {
+                    RowCount = dt.Rows.Count / 1000;
+                }
+
+                #region 0 ~ N-1
+                for(int k = 0; k < RowCount - 1; k++)
+                {
+                    sql = "Insert into " + name + "values ";
+
+                    for(int i = 0; i < 1000; i++)
+                    {
+                        sql += "(";
+                        for(int j = 0; j < dt.Columns.Count; j++)
+                        {
+                            sql += "'" + dt.Rows[i + 1000 * k][j].ToString().Trim() + "',";
+                        }
+                        sql += "),";
+                    }
+
+                    sql = sql.TrimEnd(',');
+                    sql = sql.Replace("''", "null");
+                    SqlDataObjectClass.ExecSQL(name, sql);
+                }
+                #endregion
+                #region N
+                sql = "Insert into " + name + "values ";
+
+                for(int i = 0; i < 1000; i++)
+                {
+                    sql += "(";
+                    for(int j = 0; j < dt.Columns.Count; j++)
+                    {
+                        sql += "'" + dt.Rows[i + 1000 * (RowCount - 1)][j].ToString().Trim() + "',";
+                    }
+                    sql += "),";
+                }
+
+                sql = sql.TrimEnd(',');
+                sql = sql.Replace("''", "null");
+                SqlDataObjectClass.ExecSQL(name, sql);
+                #endregion
+            }
+        }
+    }
+}
