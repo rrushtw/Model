@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data;
-using System.IO;
 using Oracle.ManagedDataAccess.Client;
 
 namespace MyModel
@@ -9,14 +8,7 @@ namespace MyModel
     {
         private static string DBConnectString(string DataBase)
         {
-            string[] Info = File.ReadAllLines(DataBase + ".txt");
-            for(int i = 0; i < Info.Length; i++)
-            {
-                Info[i] = Info[i].Split(':')[1];
-            }
-
-            string ConnectString = "DATA SOURCE=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=" + Info[0] 
-                + ")(PORT=1521)))(CONNECT_DATA=(SID = " + Info[1] + ")));PERSIST SECURITY INFO=True;USER ID=" + Info[2] + ";PASSWORD=" + Info[3] + ";";
+            string ConnectString = "DATA SOURCE=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521)))(CONNECT_DATA=(SID = sid)));PERSIST SECURITY INFO=True;USER ID=id;PASSWORD=pw;";
 
             return ConnectString;
         }
