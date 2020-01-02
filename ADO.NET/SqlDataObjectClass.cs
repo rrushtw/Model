@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
 
 namespace MyModel
 {
@@ -9,13 +8,7 @@ namespace MyModel
     {
         private static string DBConnectString(string DataBase)
         {
-            string[] Info = File.ReadAllLines(DataBase + ".txt");
-            for(int i = 0; i < Info.Length; i++)
-            {
-                Info[i] = Info[i].Split(':')[1];
-            }
-
-            string ConnectString = "Data Source=" + Info[0] + ";Initial Catalog=" + Info[1] + ";Persist Security Info=True;User ID=" + Info[2] + ";Password=" + Info[3];
+            string ConnectString = "Data Source=ip;Initial Catalog=DataBase;Persist Security Info=True;User ID=id;Password=pw";
 
             return ConnectString;
         }
