@@ -43,7 +43,8 @@ namespace MyModel
                 #region 0 ~ N-1
                 for(int k = 0; k < RowCount - 1; k++)
                 {
-                    sql = "Insert into " + name + "values ";
+                    sql = "/*Branch Number:" + k + "*/";
+                    sql += "Insert into " + name + "values ";
 
                     for(int i = 0; i < 1000; i++)
                     {
@@ -61,7 +62,8 @@ namespace MyModel
                 }
                 #endregion
                 #region N
-                sql = "Insert into " + name + "values ";
+                sql = "/*Last Branch Number*/";
+                sql += "Insert into " + name + "values ";
 
                 for(int i = 0; i < 1000; i++)
                 {
