@@ -1,0 +1,76 @@
+using System;
+using System.IO;
+using System.Net;
+using System.Text;
+using System.Web;
+
+namespace TeamPlusOrder
+{
+    class TeamPlus
+    {
+        public static void Mess2Group(string text)//Message to team+ group
+        {
+            try
+            {
+                string text_content = string.Empty;
+                string api_param = string.Empty;
+                byte[] postBytes = null;
+                Encoding myEncoding = Encoding.GetEncoding("UTF-8");
+                var request = (HttpWebRequest)WebRequest.Create("https://team.xxxxxx.com/API/TeamService.ashx?ask=postMessage");
+                request.Method = "POST";
+                request.ContentType = "application/x-www-form-urlencoded";
+                api_param = HttpUtility.UrlEncode("account", myEncoding) + "=" + HttpUtility.UrlEncode("va_1234567890abcdefgh", myEncoding) +//BOT account
+                    "&" + HttpUtility.UrlEncode("api_key", myEncoding) + "=" + HttpUtility.UrlEncode("abcdefgh-ijkl-mnop-qrst-uvwxyz123456", myEncoding) +//BOT api_key
+                    "&" + HttpUtility.UrlEncode("team_sn", myEncoding) + "=" + HttpUtility.UrlEncode("123", myEncoding) +//Group number
+                    "&" + HttpUtility.UrlEncode("content_type", myEncoding) + "=" + HttpUtility.UrlEncode("1", myEncoding) +
+                    "&" + HttpUtility.UrlEncode("media_content", myEncoding) + "=" + HttpUtility.UrlEncode("NIL", myEncoding) +
+                    "&" + HttpUtility.UrlEncode("text_content", myEncoding) + "=" + HttpUtility.UrlEncode(text, myEncoding);//text content
+                postBytes = Encoding.ASCII.GetBytes(api_param);
+                request.ContentLength = postBytes.Length;
+
+                using(var stream = request.GetRequestStream())
+                {
+                    stream.Write(postBytes, 0, postBytes.Length);
+                }
+                var response = (HttpWebResponse)request.GetResponse();
+                var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        public static void Messa2ChatRoom(string text)//Message to chat room
+        {
+            try
+            {
+                string text_content = string.Empty;
+                string api_param = string.Empty;
+                byte[] postBytes = null;
+                Encoding myEncoding = Encoding.GetEncoding("UTF-8");
+                var request = (HttpWebRequest)WebRequest.Create("https://team.xxxxxx.com/API/IMService.ashx?ask=sendChatMessage");
+                request.Method = "POST";
+                request.ContentType = "application/x-www-form-urlencoded";
+                api_param = HttpUtility.UrlEncode("account", myEncoding) + "=" + HttpUtility.UrlEncode("1234", myEncoding) +//BOT account
+                    "&" + HttpUtility.UrlEncode("api_key", myEncoding) + "=" + HttpUtility.UrlEncode("12345678-90ab-cdefghijk-lmnopqrstuvw", myEncoding) +//BOT api_key
+                    "&" + HttpUtility.UrlEncode("chat_sn", myEncoding) + "=" + HttpUtility.UrlEncode("12345", myEncoding) +//Chat room number(!= Group number)
+                    "&" + HttpUtility.UrlEncode("content_type", myEncoding) + "=" + HttpUtility.UrlEncode("1", myEncoding) +
+                    "&" + HttpUtility.UrlEncode("msg_content", myEncoding) + "=" + HttpUtility.UrlEncode(text, myEncoding);//text content
+                postBytes = Encoding.ASCII.GetBytes(api_param);
+                request.ContentLength = postBytes.Length;
+
+                using(var stream = request.GetRequestStream())
+                {
+                    stream.Write(postBytes, 0, postBytes.Length);
+                }
+                var response = (HttpWebResponse)request.GetResponse();
+                var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+    }
+}
