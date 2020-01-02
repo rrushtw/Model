@@ -3,7 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 
-namespace TG_DB.Model
+namespace MyModel
 {
     class SqlObjectClass
     {
