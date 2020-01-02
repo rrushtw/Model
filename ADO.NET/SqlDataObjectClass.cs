@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 
 namespace MyModel
 {
-    class SqlObjectClass
+    class SqlDataObjectClass
     {
         private static string DBConnectString(string DataBase)
         {
