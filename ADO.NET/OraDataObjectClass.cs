@@ -8,7 +8,7 @@ namespace MyModel
     {
         private static string DBConnectString(string DataBase)
         {
-            string ConnectString = "DATA SOURCE=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521)))(CONNECT_DATA=(SID = sid)));PERSIST SECURITY INFO=True;USER ID=id;PASSWORD=pw;";
+            string ConnectString = "Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=Host_IP)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=MyServiceName)));USER ID=MyID;PASSWORD=MyPassword;";
 
             return ConnectString;
         }
