@@ -5,27 +5,27 @@ namespace MyModel
 {
     class SQLModify
     {
-        public static void Ins(string DataBase, string TableName, DataTable dt)
+        public static void Ins(string TableName, DataTable dt, string DataBase = "DataBaseName")
         {
             string sql;
 
             if(dt.Rows.Count <= 1000)
             {
-                sql = "Insert into " + TableName + " values ";
+                sql = $"Insert into {TableName} values ";
 
                 for(int i = 0; i < dt.Rows.Count; i++)
                 {
                     sql += "(";
                     for(int j=0;j< dt.Columns.Count; j++)
                     {
-                        sql += "'" + dt.Rows[i][j].ToString().Trim() + "', ";
+                        sql += $"'{dt.Rows[i][j].ToString().Trim()}', ";
                     }
                     sql = sql.TrimEnd().TrimEnd(',');
                     sql += "), ";
                 }
                 sql = sql.TrimEnd().TrimEnd(',');
                 sql = sql.Replace("''", "null");
-                SqlDataObjectClass.ExecSQL(DataBase, sql);
+                SqlDataObjectClass.ExecSQL(sql, DataBase);
             }
             else //data rows > 1000
             {
@@ -43,41 +43,41 @@ namespace MyModel
                 #region 0 ~ N-1
                 for(int k = 0; k < RowCount - 1; k++)
                 {
-                    sql = "/*Branch Number:" + k + "*/";
-                    sql += "Insert into " + TableName + " values ";
+                    sql = $"/*Branch Number:{k}*/";
+                    sql += $"Insert into {TableName} values ";
 
                     for(int i = 0; i < 1000; i++)
                     {
                         sql += "(";
                         for(int j = 0; j < dt.Columns.Count; j++)
                         {
-                            sql += "'" + dt.Rows[i + 1000 * k][j].ToString().Trim() + "', ";
+                            sql += $"'{dt.Rows[i + 1000 * k][j].ToString().Trim()}', ";
                         }
                         sql = sql.TrimEnd().TrimEnd(',');
                         sql += "), ";
                     }
                     sql = sql.TrimEnd().TrimEnd(',');
                     sql = sql.Replace("''", "null");
-                    SqlDataObjectClass.ExecSQL(DataBase, sql);
+                    SqlDataObjectClass.ExecSQL(sql, DataBase);
                 }
                 #endregion
                 #region N
                 sql = "/*Last Branch Number*/";
-                sql += "Insert into " + TableName + " values ";
+                sql += $"Insert into {TableName} values ";
 
                 for(int i = 0; i < 1000; i++)
                 {
                     sql += "(";
                     for(int j = 0; j < dt.Columns.Count; j++)
                     {
-                        sql += "'" + dt.Rows[i + 1000 * (RowCount - 1)][j].ToString().Trim() + "', ";
+                        sql += $"'{dt.Rows[i + 1000 * (RowCount - 1)][j].ToString().Trim()}', ";
                     }
                     sql = sql.TrimEnd().TrimEnd(',');
                     sql += "), ";
                 }
                 sql = sql.TrimEnd().TrimEnd(',');
                 sql = sql.Replace("''", "null");
-                SqlDataObjectClass.ExecSQL(DataBase, sql);
+                SqlDataObjectClass.ExecSQL(sql, DataBase);
                 #endregion
             }
         }
