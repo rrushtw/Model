@@ -177,5 +177,68 @@ namespace ADO.NET
 
             return dt;
         }
+
+        private T Mapping<T>(DataTable dt, DataRow dr) where T : class, new()
+        {
+            T model = new T();
+            foreach (var prop in model.GetType().GetProperties())
+            {
+                if (!prop.CanWrite)
+                {
+                    continue;
+                }
+
+                if (dt.Columns.Contains(prop.Name))
+                {
+                    object propValue = null;
+                    var value = dr[prop.Name];
+                    if (value != DBNull.Value)
+                    {
+                        propValue = value;
+                    }
+
+                    prop.SetValue(model, propValue, null);
+                }
+            }
+
+            return model;
+        }
+
+        public List<T> ExecSQL<T>(string commandString, List<OracleParameter> parameters = null) where T : class, new()
+        {
+            DataTable dt = ExecSQL(commandString, parameters);
+
+            if (dt == null)
+            {
+                throw new ArgumentNullException("DataTable is null!");
+            }
+
+            List<T> list = new List<T>();
+            foreach (DataRow row in dt.Rows)
+            {
+                T model = Mapping<T>(dt, row);
+                list.Add(model);
+            }
+            return list;
+        }
+
+        public List<T> ExecPro<T>(string commandString, List<OracleParameter> parameters = null) where T : class, new()
+        {
+            DataTable dt = ExecProc(commandString, parameters);
+
+            if (dt == null)
+            {
+                throw new ArgumentNullException("DataTable is null!");
+            }
+
+            List<T> list = new List<T>();
+            foreach (DataRow row in dt.Rows)
+            {
+                T model = Mapping<T>(dt, row);
+                list.Add(model);
+            }
+
+            return list;
+        }
     }
 }
