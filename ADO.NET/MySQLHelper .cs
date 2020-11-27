@@ -215,9 +215,9 @@ namespace ADO.NET
             return list;
         }
 
-        public List<T> ExecPro<T>(string commandString, List<MySqlParameter> parameters = null) where T : class, new()
+        public List<T> ExecPro<T>(string procedure, List<MySqlParameter> parameters = null) where T : class, new()
         {
-            DataTable dt = ExecProc(commandString, parameters);
+            DataTable dt = ExecProc(procedure, parameters);
 
             if (dt == null)
             {

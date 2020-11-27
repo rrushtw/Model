@@ -222,9 +222,9 @@ namespace ADO.NET
             return list;
         }
 
-        public List<T> ExecPro<T>(string commandString, List<OracleParameter> parameters = null) where T : class, new()
+        public List<T> ExecPro<T>(string procedure, List<OracleParameter> parameters = null) where T : class, new()
         {
-            DataTable dt = ExecProc(commandString, parameters);
+            DataTable dt = ExecProc(procedure, parameters);
 
             if (dt == null)
             {
