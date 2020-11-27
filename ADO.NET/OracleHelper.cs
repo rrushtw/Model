@@ -30,7 +30,7 @@ namespace ADO.NET
         /// <param name="commandString">SQL command string</param>
         /// <param name="parameters">Parameters in commanc string</param>
         /// <returns>DataTable</returns>
-        public DataTable ExecSQL(string commandString, List<OracleParameter> parameters = null)
+        public DataTable ExecSQL(string commandString, IEnumerable<OracleParameter> parameters = null)
         {
             OracleConnection conn = new OracleConnection(DBConnectString);
             OracleCommand cmd = new OracleCommand(commandString, conn)
@@ -82,7 +82,7 @@ namespace ADO.NET
         /// <param name="commandString">SQL command string</param>
         /// <param name="parameters">Parameters in command string</param>
         /// <returns>Affected rows</returns>
-        public int GetAffectedRows(string commandString, List<OracleParameter> parameters = null)
+        public int GetAffectedRows(string commandString, IEnumerable<OracleParameter> parameters = null)
         {
             int affectedRows = 0;
             OracleConnection conn = new OracleConnection(DBConnectString);
@@ -132,7 +132,7 @@ namespace ADO.NET
         /// <param name="procudure">The name of stored procedure</param>
         /// <param name="parameters">Parameters that stored procedure required</param>
         /// <returns>DataTable</returns>
-        public DataTable ExecProc(string procudure, List<OracleParameter> parameters = null)
+        public DataTable ExecProc(string procudure, IEnumerable<OracleParameter> parameters = null)
         {
             OracleConnection conn = new OracleConnection(DBConnectString);
             OracleCommand cmd = new OracleCommand(procudure, conn)
@@ -204,7 +204,7 @@ namespace ADO.NET
             return model;
         }
 
-        public List<T> ExecSQL<T>(string commandString, List<OracleParameter> parameters = null) where T : class, new()
+        public IEnumerable<T> ExecSQL<T>(string commandString, IEnumerable<OracleParameter> parameters = null) where T : class, new()
         {
             DataTable dt = ExecSQL(commandString, parameters);
 
@@ -222,7 +222,7 @@ namespace ADO.NET
             return list;
         }
 
-        public List<T> ExecPro<T>(string procedure, List<OracleParameter> parameters = null) where T : class, new()
+        public IEnumerable<T> ExecPro<T>(string procedure, IEnumerable<OracleParameter> parameters = null) where T : class, new()
         {
             DataTable dt = ExecProc(procedure, parameters);
 

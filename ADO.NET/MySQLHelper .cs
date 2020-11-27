@@ -23,7 +23,7 @@ namespace ADO.NET
         /// <param name="commandString">SQL command string</param>
         /// <param name="parameters">Parameters in commanc string</param>
         /// <returns>DataTable</returns>
-        public DataTable ExecSQL(string commandString, List<MySqlParameter> parameters = null)
+        public DataTable ExecSQL(string commandString, IEnumerable<MySqlParameter> parameters = null)
         {
             MySqlConnection conn = new MySqlConnection(DBConnectString);
             MySqlCommand cmd = new MySqlCommand(commandString, conn)
@@ -75,7 +75,7 @@ namespace ADO.NET
         /// <param name="commandString">SQL command string</param>
         /// <param name="parameters">Parameters in command string</param>
         /// <returns>Affected rows</returns>
-        public int GetAffectedRows(string commandString, List<MySqlParameter> parameters = null)
+        public int GetAffectedRows(string commandString, IEnumerable<MySqlParameter> parameters = null)
         {
             int affectedRows = 0;
             MySqlConnection conn = new MySqlConnection(DBConnectString);
@@ -125,7 +125,7 @@ namespace ADO.NET
         /// <param name="procudure">The name of stored procedure</param>
         /// <param name="parameters">Parameters that stored procedure required</param>
         /// <returns>DataTable</returns>
-        public DataTable ExecProc(string procudure, List<MySqlParameter> parameters = null)
+        public DataTable ExecProc(string procudure, IEnumerable<MySqlParameter> parameters = null)
         {
             MySqlConnection conn = new MySqlConnection(DBConnectString);
             MySqlCommand cmd = new MySqlCommand(procudure, conn)
@@ -197,7 +197,7 @@ namespace ADO.NET
             return model;
         }
 
-        public List<T> ExecSQL<T>(string commandString, List<MySqlParameter> parameters = null) where T : class, new()
+        public IEnumerable<T> ExecSQL<T>(string commandString, IEnumerable<MySqlParameter> parameters = null) where T : class, new()
         {
             DataTable dt = ExecSQL(commandString, parameters);
 
@@ -215,7 +215,7 @@ namespace ADO.NET
             return list;
         }
 
-        public List<T> ExecPro<T>(string procedure, List<MySqlParameter> parameters = null) where T : class, new()
+        public IEnumerable<T> ExecPro<T>(string procedure, IEnumerable<MySqlParameter> parameters = null) where T : class, new()
         {
             DataTable dt = ExecProc(procedure, parameters);
 
