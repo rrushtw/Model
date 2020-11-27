@@ -23,7 +23,7 @@ namespace ADO.NET
         /// <param name="commandString">SQL command string</param>
         /// <param name="parameters">Parameters in commanc string</param>
         /// <returns>DataTable</returns>
-        public DataTable ExecSQL(string commandString, List<SqlParameter> parameters = null)
+        public DataTable ExecSQL(string commandString, IEnumerable<SqlParameter> parameters = null)
         {
             SqlConnection conn = new SqlConnection(DBConnectString);
             SqlCommand cmd = new SqlCommand(commandString, conn)
@@ -75,7 +75,7 @@ namespace ADO.NET
         /// <param name="commandString">SQL command string</param>
         /// <param name="parameters">Parameters in command string</param>
         /// <returns>Affected rows</returns>
-        public int GetAffectedRows(string commandString, List<SqlParameter> parameters = null)
+        public int GetAffectedRows(string commandString, IEnumerable<SqlParameter> parameters = null)
         {
             int affectedRows = 0;
             SqlConnection conn = new SqlConnection(DBConnectString);
@@ -125,7 +125,7 @@ namespace ADO.NET
         /// <param name="procudure">The name of stored procedure</param>
         /// <param name="parameters">Parameters that stored procedure required</param>
         /// <returns>DataTable</returns>
-        public DataTable ExecProc(string procudure, List<SqlParameter> parameters = null)
+        public DataTable ExecProc(string procudure, IEnumerable<SqlParameter> parameters = null)
         {
             SqlConnection conn = new SqlConnection(DBConnectString);
             SqlCommand cmd = new SqlCommand(procudure, conn)
@@ -197,7 +197,7 @@ namespace ADO.NET
             return model;
         }
 
-        public List<T> ExecSQL<T>(string commandString, List<SqlParameter> parameters = null) where T : class, new()
+        public List<T> ExecSQL<T>(string commandString, IEnumerable<SqlParameter> parameters = null) where T : class, new()
         {
             DataTable dt = ExecSQL(commandString, parameters);
 
@@ -215,9 +215,9 @@ namespace ADO.NET
             return list;
         }
 
-        public List<T> ExecPro<T>(string commandString, List<SqlParameter> parameters = null) where T : class, new()
+        public List<T> ExecPro<T>(string procedure, IEnumerable<SqlParameter> parameters = null) where T : class, new()
         {
-            DataTable dt = ExecProc(commandString, parameters);
+            DataTable dt = ExecProc(procedure, parameters);
 
             if (dt == null)
             {

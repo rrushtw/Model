@@ -1,25 +1,15 @@
-﻿using Oracle.ManagedDataAccess.Client;
+﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
 
 namespace ADO.NET
 {
-    public class OracleHelper
+    public class MySQLHelper
     {
-        /* NOTCIE
-         * In order to using this class, need to install Oracle.ManagedDataAccess.
-         * There are two NuGet references, Oracle.ManagedDataAccess and Oracle.ManagedDataAccess.Core.
-         * Please install one of them depend on target framework.
-         */
-
-        /// <summary>
-        /// DataBase connection string example:
-        /// "Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=Host_IP)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=MyServiceName)));USER ID=MyID;PASSWORD=MyPassword;"
-        /// </summary>
         private string DBConnectString { get; set; }
 
-        public OracleHelper(string connectString)
+        public MySQLHelper(string connectString)
         {
             DBConnectString = connectString;
         }
@@ -30,17 +20,17 @@ namespace ADO.NET
         /// <param name="commandString">SQL command string</param>
         /// <param name="parameters">Parameters in commanc string</param>
         /// <returns>DataTable</returns>
-        public DataTable ExecSQL(string commandString, IEnumerable<OracleParameter> parameters = null)
+        public DataTable ExecSQL(string commandString, IEnumerable<MySqlParameter> parameters = null)
         {
-            OracleConnection conn = new OracleConnection(DBConnectString);
-            OracleCommand cmd = new OracleCommand(commandString, conn)
+            MySqlConnection conn = new MySqlConnection(DBConnectString);
+            MySqlCommand cmd = new MySqlCommand(commandString, conn)
             {
                 CommandType = CommandType.Text
             };
 
             if (parameters != null)
             {
-                foreach (OracleParameter x in parameters)
+                foreach (MySqlParameter x in parameters)
                 {
                     if ((x.Direction == ParameterDirection.InputOutput || x.Direction == ParameterDirection.Input) && x.Value == null)
                     {
@@ -57,7 +47,7 @@ namespace ADO.NET
                 //Open the connection
                 conn.Open();
                 //Load Data by each row
-                OracleDataReader dr = cmd.ExecuteReader();
+                MySqlDataReader dr = cmd.ExecuteReader();
                 //Stored in data table
                 dt.Load(dr);
                 //Release cmd memories
@@ -82,18 +72,18 @@ namespace ADO.NET
         /// <param name="commandString">SQL command string</param>
         /// <param name="parameters">Parameters in command string</param>
         /// <returns>Affected rows</returns>
-        public int GetAffectedRows(string commandString, IEnumerable<OracleParameter> parameters = null)
+        public int GetAffectedRows(string commandString, IEnumerable<MySqlParameter> parameters = null)
         {
             int affectedRows = 0;
-            OracleConnection conn = new OracleConnection(DBConnectString);
-            OracleCommand cmd = new OracleCommand(commandString, conn)
+            MySqlConnection conn = new MySqlConnection(DBConnectString);
+            MySqlCommand cmd = new MySqlCommand(commandString, conn)
             {
                 CommandType = CommandType.Text
             };
 
             if (parameters != null)
             {
-                foreach (OracleParameter x in parameters)
+                foreach (MySqlParameter x in parameters)
                 {
                     if ((x.Direction == ParameterDirection.InputOutput || x.Direction == ParameterDirection.Input) && x.Value == null)
                     {
@@ -132,17 +122,17 @@ namespace ADO.NET
         /// <param name="procudure">The name of stored procedure</param>
         /// <param name="parameters">Parameters that stored procedure required</param>
         /// <returns>DataTable</returns>
-        public DataTable ExecProc(string procudure, IEnumerable<OracleParameter> parameters = null)
+        public DataTable ExecProc(string procudure, IEnumerable<MySqlParameter> parameters = null)
         {
-            OracleConnection conn = new OracleConnection(DBConnectString);
-            OracleCommand cmd = new OracleCommand(procudure, conn)
+            MySqlConnection conn = new MySqlConnection(DBConnectString);
+            MySqlCommand cmd = new MySqlCommand(procudure, conn)
             {
                 CommandType = CommandType.StoredProcedure
             };
 
             if (parameters != null)
             {
-                foreach (OracleParameter x in parameters)
+                foreach (MySqlParameter x in parameters)
                 {
                     if ((x.Direction == ParameterDirection.InputOutput || x.Direction == ParameterDirection.Input) && x.Value == null)
                     {
@@ -159,7 +149,7 @@ namespace ADO.NET
                 //Open the connection
                 conn.Open();
                 //Load Data by each row
-                OracleDataReader dr = cmd.ExecuteReader();
+                MySqlDataReader dr = cmd.ExecuteReader();
                 //Stored in data table
                 dt.Load(dr);
                 //Release cmd memories
@@ -204,7 +194,7 @@ namespace ADO.NET
             return model;
         }
 
-        public IEnumerable<T> ExecSQL<T>(string commandString, IEnumerable<OracleParameter> parameters = null) where T : class, new()
+        public IEnumerable<T> ExecSQL<T>(string commandString, IEnumerable<MySqlParameter> parameters = null) where T : class, new()
         {
             DataTable dt = ExecSQL(commandString, parameters);
 
@@ -222,7 +212,7 @@ namespace ADO.NET
             return list;
         }
 
-        public IEnumerable<T> ExecPro<T>(string procedure, IEnumerable<OracleParameter> parameters = null) where T : class, new()
+        public IEnumerable<T> ExecPro<T>(string procedure, IEnumerable<MySqlParameter> parameters = null) where T : class, new()
         {
             DataTable dt = ExecProc(procedure, parameters);
 
