@@ -212,7 +212,7 @@ namespace ADO.NET
             return list;
         }
 
-        public List<T> ExecPro<T>(string procedure, IEnumerable<OleDbParameter> parameters = null) where T : class, new()
+        public List<T> ExecProc<T>(string procedure, IEnumerable<OleDbParameter> parameters = null) where T : class, new()
         {
             DataTable dt = ExecProc(procedure, parameters);
 
