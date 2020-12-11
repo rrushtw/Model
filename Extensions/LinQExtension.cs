@@ -5,7 +5,7 @@ namespace Extensions
 {
     public static class LinQExtension
     {
-        public static IEnumerable<T> DisTinct<T>(this IEnumerable<T> list)
+        public static IEnumerable<T> GetDistinct<T>(this IEnumerable<T> list)
         {
             List<T> resultList = new List<T>();
             List<string> stringList = new List<string>();
