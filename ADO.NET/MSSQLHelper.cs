@@ -185,7 +185,36 @@ namespace ADO.NET
                 {
                     object propValue = null;
                     var value = dr[prop.Name];
-                    if (value != DBNull.Value)
+
+                    if (value == DBNull.Value)
+                    {
+                        //propValue = null;
+                    }
+                    else if (prop.PropertyType == typeof(bool))
+                    {
+                        propValue = Convert.ToBoolean(value);
+                    }
+                    else if (prop.PropertyType == typeof(DateTime))
+                    {
+                        propValue = Convert.ToDateTime(value);
+                    }
+                    else if (prop.PropertyType == typeof(short))
+                    {
+                        propValue = Convert.ToInt16(value);
+                    }
+                    else if (prop.PropertyType == typeof(int))
+                    {
+                        propValue = Convert.ToInt32(value);
+                    }
+                    else if (prop.PropertyType == typeof(long))
+                    {
+                        propValue = Convert.ToInt64(value);
+                    }
+                    else if (prop.PropertyType == typeof(decimal))
+                    {
+                        propValue = Convert.ToDecimal(value);
+                    }
+                    else
                     {
                         propValue = value;
                     }
