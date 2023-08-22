@@ -137,10 +137,10 @@ function Update(sheetId, sheetName, key, data) {
     }
 
     if (match) {
-      for (var key in data) {
-        var columnIndex = headers.indexOf(key);
+      for (var dataKey in data) {
+        var columnIndex = headers.indexOf(dataKey);
         if (columnIndex !== -1) {
-          sheet.getRange(i + 2, columnIndex + 1).setValue(data[key]);
+          sheet.getRange(i + 2, columnIndex + 1).setValue(data[dataKey]);
         }
       }
     }
